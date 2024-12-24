@@ -1,31 +1,31 @@
 services:
-  wordpress:
+  classicpress:
     image: php8.3-apache
-    container_name: wordpress
+    container_name: classicpress
     ports:
       - "8080:80"
     environment:
-      WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
-      WORDPRESS_DB_NAME: wordpress
+      CLASSICPRESS_DB_HOST: db:3306
+      CLASSICPRESS_DB_USER: classicpress
+      CLASSICPRESS_DB_PASSWORD: classicpress
+      CLASSICPRESS_DB_NAME: classicpress
     volumes:
-      - wordpress_data:/var/www/html
+      - classicpress_data:/var/www/html
     depends_on:
       - db
 
   db:
-    image: mysql:5.7
-    container_name: wordpress_db
+    image: mysql:8.0
+    container_name: classicpress_db
     restart: always
     environment:
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      MYSQL_DATABASE: classicpress
+      MYSQL_USER: classicpress
+      MYSQL_PASSWORD: classicpress
       MYSQL_ROOT_PASSWORD: rootpassword
     volumes:
       - db_data:/var/lib/mysql
 
 volumes:
-  wordpress_data:
+  classicpress_data:
   db_data:

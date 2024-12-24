@@ -5,14 +5,6 @@ RUN set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
         ghostscript \
-    ; \
-    rm -rf /var/lib/apt/lists/*
-
-# Install required PHP extensions
-RUN set -eux; \
-    savedAptMark="$(apt-mark showmanual)"; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends \
         libavif-dev \
         libfreetype6-dev \
         libicu-dev \
@@ -20,28 +12,25 @@ RUN set -eux; \
         libmagickwand-dev \
         libpng-dev \
         libwebp-dev \
-        libzip-dev \
-    ; \
+        libzip-dev; \
+    rm -rf /var/lib/apt/lists/*
+
+# Install and enable PHP extensions
+RUN set -eux; \
     docker-php-ext-configure gd \
         --with-avif \
         --with-freetype \
         --with-jpeg \
-        --with-webp \
-    ; \
-    docker-php-ext-install -j "$(nproc)" \
+        --with-webp; \
+    docker-php-ext-install -j"$(nproc)" \
+        gd \
         bcmath \
         exif \
-        gd \
         intl \
         mysqli \
-        zip \
-    ; \
-    pecl install imagick && docker-php-ext-enable imagick \
-    ; \
-    apt-mark auto '.*' > /dev/null; \
-    apt-mark manual $savedAptMark; \
-    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
-    rm -rf /var/lib/apt/lists/*
+        zip; \
+    pecl install imagick && docker-php-ext-enable imagick; \
+    php -m | grep -E 'imagick|zip|gd'
 
 # Enable Apache modules
 RUN set -eux; \
