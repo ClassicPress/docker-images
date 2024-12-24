@@ -35,7 +35,7 @@ jobs:
           platforms: ${{ matrix.platform }}
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/classicpress:php8.1
+            classicpress/classicpress:php8.1-apache
 
   build_php82:
     runs-on: ubuntu-latest
@@ -66,7 +66,7 @@ jobs:
           platforms: ${{ matrix.platform }}
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/classicpress:php8.2
+            classicpress/classicpress:php8.2-apache
 
   build_php83:
     runs-on: ubuntu-latest
@@ -97,4 +97,4 @@ jobs:
           platforms: ${{ matrix.platform }}
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/classicpress:php8.3
+            classicpress/classicpress:php8.3-apache
