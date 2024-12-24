@@ -25,14 +25,14 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 		group="$gid"
 	fi
 
-	if [ ! -e index.php ] && [ ! -e wp-includes/version.php ]; then
+	if [ ! -e index.php ] && [ ! -e cp-includes/version.php ]; then
 		# if the directory exists and ClassicPress doesn't appear to be installed AND the permissions of it are root:root, let's chown it (likely a Docker-created directory)
 		if [ "$uid" = '0' ] && [ "$(stat -c '%u:%g' .)" = '0:0' ]; then
 			chown "$user:$group" .
 		fi
 
 		echo >&2 "ClassicPress not found in $PWD - copying now..."
-		if [ -n "$(find -mindepth 1 -maxdepth 1 -not -name wp-content)" ]; then
+		if [ -n "$(find -mindepth 1 -maxdepth 1 -not -name cp-content)" ]; then
 			echo >&2 "WARNING: $PWD is not empty! (copying anyhow)"
 		fi
 		sourceTarArgs=(
@@ -52,11 +52,11 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 		# loop over "pluggable" content in the source, and if it already exists in the destination, skip it
 		for contentPath in \
 			/usr/src/classicpress/.htaccess \
-			/usr/src/classicpress/wp-content/*/*/ \
+			/usr/src/classicpress/cp-content/*/*/ \
 		; do
 			contentPath="${contentPath%/}"
 			[ -e "$contentPath" ] || continue
-			contentPath="${contentPath#/usr/src/classicpress/}" # "wp-content/plugins/akismet", etc.
+			contentPath="${contentPath#/usr/src/classicpress/}" # "cp-content/plugins/akismet", etc.
 			if [ -e "$PWD/$contentPath" ]; then
 				echo >&2 "WARNING: '$PWD/$contentPath' exists! (not copying the ClassicPress version)"
 				sourceTarArgs+=( --exclude "./$contentPath" )
@@ -66,14 +66,14 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 		echo >&2 "Complete! ClassicPress has been successfully copied to $PWD"
 	fi
 
-	wpEnvs=( "${!CLASSICPRESS_@}" )
-	if [ ! -s wp-config.php ] && [ "${#wpEnvs[@]}" -gt 0 ]; then
-		for wpConfigDocker in \
-			wp-config-docker.php \
-			/usr/src/classicpress/wp-config-docker.php \
+	cpEnvs=( "${!CLASSICPRESS_@}" )
+	if [ ! -s cp-config.php ] && [ "${#cpEnvs[@]}" -gt 0 ]; then
+		for cpConfigDocker in \
+			cp-config-docker.php \
+			/usr/src/classicpress/cp-config-docker.php \
 		; do
-			if [ -s "$wpConfigDocker" ]; then
-				echo >&2 "No 'wp-config.php' found in $PWD, but 'CLASSICPRESS_...' variables supplied; copying '$wpConfigDocker' (${wpEnvs[*]})"
+			if [ -s "$cpConfigDocker" ]; then
+				echo >&2 "No 'cp-config.php' found in $PWD, but 'CLASSICPRESS_...' variables supplied; copying '$cpConfigDocker' (${cpEnvs[*]})"
 				# using "awk" to replace all instances of "put your unique phrase here" with a properly unique string (for AUTH_KEY and friends to have safe defaults if they aren't specified with environment variables)
 				awk '
 					/put your unique phrase here/ {
@@ -83,11 +83,11 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 						gsub("put your unique phrase here", str)
 					}
 					{ print }
-				' "$wpConfigDocker" > wp-config.php
+				' "$cpConfigDocker" > cp-config.php
 				if [ "$uid" = '0' ]; then
-					# attempt to ensure that wp-config.php is owned by the run user
+					# attempt to ensure that cp-config.php is owned by the run user
 					# could be on a filesystem that doesn't allow chown (like some NFS setups)
-					chown "$user:$group" wp-config.php || true
+					chown "$user:$group" cp-config.php || true
 				fi
 				break
 			fi
