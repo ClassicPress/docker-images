@@ -13,8 +13,8 @@ jobs:
     strategy:
       matrix:
         dockerfile:
-          - ./php8.3/Dockerfile
-          - ./php8.4/Dockerfile
+          - php8.3
+          - php8.4
 
     steps:
       # Checkout the repository
@@ -36,9 +36,8 @@ jobs:
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ${{ matrix.dockerfile }}
+          context: ${{ matrix.dockerfile }}
+          file: ${{ matrix.dockerfile }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: >
-            ${{ secrets.DOCKER_USERNAME }}/classicpress:{{ matrix.dockerfile | basename | split: "." | first }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/classicpress:${{ matrix.dockerfile }}
