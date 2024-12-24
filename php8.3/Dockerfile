@@ -173,8 +173,8 @@ RUN set -eux; \
 
 VOLUME /var/www/html
 
-COPY --chown=www-data:www-data php8.4/wp-config-docker.php /usr/src/wordpress/
-COPY php8.4/docker-entrypoint.sh /usr/local/bin/
+COPY --chown=www-data:www-data php8.3/wp-config-docker.php /usr/src/wordpress/
+COPY php8.3/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["docker-entrypoint.sh"]
