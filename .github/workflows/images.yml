@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  build-php8.3:
+  build_php8.3:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -37,7 +37,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/classicpress:php8.3
 
-  build-php8.4:
+  build_php8.4:
     runs-on: ubuntu-latest
     strategy:
       matrix:
