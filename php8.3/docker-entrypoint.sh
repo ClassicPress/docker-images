@@ -67,13 +67,13 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 	fi
 
 	cpEnvs=( "${!CLASSICPRESS_@}" )
-	if [ ! -s cp-config.php ] && [ "${#cpEnvs[@]}" -gt 0 ]; then
+	if [ ! -s wp-config.php ] && [ "${#cpEnvs[@]}" -gt 0 ]; then
 		for cpConfigDocker in \
-			cp-config-docker.php \
-			/usr/src/classicpress/cp-config-docker.php \
+			wp-config-docker.php \
+			/usr/src/classicpress/wp-config-docker.php \
 		; do
 			if [ -s "$cpConfigDocker" ]; then
-				echo >&2 "No 'cp-config.php' found in $PWD, but 'CLASSICPRESS_...' variables supplied; copying '$cpConfigDocker' (${cpEnvs[*]})"
+				echo >&2 "No 'wp-config.php' found in $PWD, but 'CLASSICPRESS_...' variables supplied; copying '$cpConfigDocker' (${cpEnvs[*]})"
 				# using "awk" to replace all instances of "put your unique phrase here" with a properly unique string (for AUTH_KEY and friends to have safe defaults if they aren't specified with environment variables)
 				awk '
 					/put your unique phrase here/ {
@@ -83,11 +83,11 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 						gsub("put your unique phrase here", str)
 					}
 					{ print }
-				' "$cpConfigDocker" > cp-config.php
+				' "$cpConfigDocker" > wp-config.php
 				if [ "$uid" = '0' ]; then
-					# attempt to ensure that cp-config.php is owned by the run user
+					# attempt to ensure that wp-config.php is owned by the run user
 					# could be on a filesystem that doesn't allow chown (like some NFS setups)
-					chown "$user:$group" cp-config.php || true
+					chown "$user:$group" wp-config.php || true
 				fi
 				break
 			fi
