@@ -3,7 +3,7 @@ services:
     image: classicpress/classicpress:php7.4-apache
     container_name: classicpress
     ports:
-      - "8080:80"
+      - "80:80"
     environment:
       CLASSICPRESS_DB_HOST: db:3306
       CLASSICPRESS_DB_USER: classicpress
