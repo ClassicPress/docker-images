@@ -10,6 +10,7 @@ RUN set -eux; \
         libicu-dev \
         libjpeg-dev \
         libmagickwand-dev \
+        libmagickcore-6.q16-6-extra \
         libpng-dev \
         libwebp-dev \
         libzip-dev; \
