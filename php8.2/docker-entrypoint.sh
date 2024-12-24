@@ -25,14 +25,14 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 		group="$gid"
 	fi
 
-	if [ ! -e index.php ] && [ ! -e cp-includes/version.php ]; then
+	if [ ! -e index.php ] && [ ! -e wp-includes/version.php ]; then
 		# if the directory exists and ClassicPress doesn't appear to be installed AND the permissions of it are root:root, let's chown it (likely a Docker-created directory)
 		if [ "$uid" = '0' ] && [ "$(stat -c '%u:%g' .)" = '0:0' ]; then
 			chown "$user:$group" .
 		fi
 
 		echo >&2 "ClassicPress not found in $PWD - copying now..."
-		if [ -n "$(find -mindepth 1 -maxdepth 1 -not -name cp-content)" ]; then
+		if [ -n "$(find -mindepth 1 -maxdepth 1 -not -name wp-content)" ]; then
 			echo >&2 "WARNING: $PWD is not empty! (copying anyhow)"
 		fi
 		sourceTarArgs=(
@@ -52,11 +52,11 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 		# loop over "pluggable" content in the source, and if it already exists in the destination, skip it
 		for contentPath in \
 			/usr/src/classicpress/.htaccess \
-			/usr/src/classicpress/cp-content/*/*/ \
+			/usr/src/classicpress/wp-content/*/*/ \
 		; do
 			contentPath="${contentPath%/}"
 			[ -e "$contentPath" ] || continue
-			contentPath="${contentPath#/usr/src/classicpress/}" # "cp-content/plugins/akismet", etc.
+			contentPath="${contentPath#/usr/src/classicpress/}" # "wp-content/plugins/akismet", etc.
 			if [ -e "$PWD/$contentPath" ]; then
 				echo >&2 "WARNING: '$PWD/$contentPath' exists! (not copying the ClassicPress version)"
 				sourceTarArgs+=( --exclude "./$contentPath" )
