@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  build_php82:
+  build_php81:
     runs-on: ubuntu-latest
     strategy:
       matrix:
