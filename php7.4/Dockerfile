@@ -93,9 +93,9 @@ RUN set -eux; \
 
 # Download and prepare ClassicPress
 RUN set -eux; \
-    curl -o classicpress.tar.gz -fL "https://github.com/ClassicPress/ClassicPress-release/archive/refs/tags/2.3.1.tar.gz"; \
+    curl -o classicpress.tar.gz -fL "https://github.com/ClassicPress/ClassicPress-release/archive/refs/tags/2.4.1.tar.gz"; \
     tar -xzf classicpress.tar.gz -C /usr/src/; \
-    mv /usr/src/ClassicPress-release-2.3.1 /usr/src/classicpress; \
+    mv /usr/src/ClassicPress-release-2.4.1 /usr/src/classicpress; \
     rm classicpress.tar.gz; \
     chown -R www-data:www-data /usr/src/classicpress; \
     mkdir wp-content; \

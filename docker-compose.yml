@@ -1,6 +1,6 @@
 services:
   classicpress:
-    image: classicpress/classicpress:php7.4-apache
+    image: classicpress/classicpress:latest
     container_name: classicpress
     ports:
       - "80:80"
