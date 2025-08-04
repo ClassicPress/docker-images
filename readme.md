@@ -12,12 +12,12 @@ This image provides a streamlined, production-ready container for running Classi
 
 ## Supported Tags
 
-- [2.4.1‑php7.4‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=2.4.1-php7.4-apache)  
-- [2.4.1‑php8.0‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=2.4.1-php8.0-apache)  
-- [2.4.1‑php8.1‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=2.4.1-php8.1-apache)  
-- [2.4.1‑php8.2‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=2.4.1-php8.2-apache)  
-- [2.4.1‑php8.3‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=2.4.1-php8.3-apache)  
-- [2.4.1‑php8.4‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=2.4.1-php8.4-apache)
+- [2.4.1‑php7.4‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php7.4-apache)  
+- [2.4.1‑php8.0‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.0-apache)  
+- [2.4.1‑php8.1‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.1-apache)  
+- [2.4.1‑php8.2‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.2-apache)  
+- [2.4.1‑php8.3‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.3-apache)  
+- [2.4.1‑php8.4‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.4-apache)
 
 ## Supported Architectures
 
