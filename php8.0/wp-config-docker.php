@@ -65,7 +65,7 @@ define( 'DB_COLLATE', getenv_docker( 'CLASSICPRESS_DB_COLLATE', '' ) );
  * You can change these at any point in time to invalidate all existing cookies.
  * This will force all users to have to log in again.
  *
- * @since 2.6.0
+ * @since 2.7.0
  */
 define( 'AUTH_KEY',         getenv_docker( 'CLASSICPRESS_AUTH_KEY',         'put your unique phrase here' ) );
 define( 'SECURE_AUTH_KEY',  getenv_docker( 'CLASSICPRESS_SECURE_AUTH_KEY',  'put your unique phrase here' ) );
