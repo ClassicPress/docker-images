@@ -54,6 +54,12 @@ RUN set -eux; \
     php -m | grep -E 'zip|imagick'; \
     php -r 'if (!extension_loaded("zip")) exit(1); if (!extension_loaded("imagick")) exit(1);'
 
+# Install WP-CLI
+RUN set -eux; \
+    curl -fsSL -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar; \
+    chmod +x /usr/local/bin/wp; \
+    wp --allow-root --info
+    
 # Recommended PHP.ini settings
 RUN set -eux; \
     docker-php-ext-enable opcache; \
