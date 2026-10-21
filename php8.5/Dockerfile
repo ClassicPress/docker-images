@@ -48,7 +48,7 @@ RUN set -ex; \
 	; \
 	# https://pecl.php.net/package/imagick
 	# https://pecl.php.net/package/imagick
-	pecl install imagick-3.8.1; \
+	n=0; until pecl install imagick-3.8.1; do n=$((n+1)); [ "$n" -ge 8 ] && exit 1; echo "pecl install failed, retry $n"; sleep 15; done; \
 	docker-php-ext-enable imagick; \
 	rm -r /tmp/pear; \
 	\
