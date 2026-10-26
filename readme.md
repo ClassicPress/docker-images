@@ -4,7 +4,7 @@ This is the official Docker image for ClassicPress — a lightweight, secure, an
 This image provides a streamlined, production-ready container for running ClassicPress with minimal setup. It supports both Apache and PHP-FPM configurations and is ideal for development, testing, or deployment in Docker-based environments.
 
 ✨ Features
-* Based on official images (Apache)
+* Based on official images (Apache, and PHP-FPM on Alpine Linux)
 * Support volume mounting for perisistent content
 * Simple environment-variable-based configuration
 * Compatiible with Docker Compose
@@ -17,6 +17,19 @@ This image provides a streamlined, production-ready container for running Classi
 - [2.7.4‑php8.3‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.3-apache)  
 - [2.7.4‑php8.4‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.4-apache)
 - [2.7.4‑php8.5‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.5-apache)
+
+### PHP-FPM on Alpine Linux
+
+Smaller images that run PHP-FPM only (port 9000), with no web server inside. Put nginx or another web server in front; see `docker-compose.fpm-alpine.yml` and `nginx/default.conf` for a working example.
+
+- [2.7.4‑php8.2‑fpm‑alpine](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.2-fpm-alpine)
+- [2.7.4‑php8.3‑fpm‑alpine](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.3-fpm-alpine)
+- [2.7.4‑php8.4‑fpm‑alpine](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.4-fpm-alpine)
+- [2.7.4‑php8.5‑fpm‑alpine](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.5-fpm-alpine) (also `fpm-alpine`)
+
+```
+docker compose -f docker-compose.fpm-alpine.yml up -d
+```
 
 ## Supported Architectures
 
