@@ -39,8 +39,6 @@ Every image includes [WP-CLI](https://wp-cli.org/) at `/usr/local/bin/wp`. Run i
 docker exec -u www-data <container> wp plugin list
 ```
 
-Don't use `wp core update` or `wp core download`. They install WordPress, not ClassicPress. To update ClassicPress, pull a newer image or use the updater in the dashboard.
-
 ## Supported Architectures
 
 - `amd64`  
