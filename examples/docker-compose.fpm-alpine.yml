@@ -1,5 +1,5 @@
 # ClassicPress on PHP-FPM (Alpine) behind nginx.
-# Usage: docker compose -f docker-compose.fpm-alpine.yml up -d
+# Usage (from the examples folder): docker compose -f docker-compose.fpm-alpine.yml up -d
 services:
   classicpress:
     image: classicpress/classicpress:php8.4-fpm-alpine

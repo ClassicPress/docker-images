@@ -3,7 +3,7 @@
 # Based on the official WordPress fpm-alpine image (docker-library/wordpress).
 #
 # This image runs PHP-FPM only (port 9000). Put a web server such as nginx in
-# front of it; see docker-compose.fpm-alpine.yml and nginx/default.conf.
+# front of it; see examples/docker-compose.fpm-alpine.yml and examples/nginx/default.conf.
 #
 
 FROM php:8.2-fpm-alpine
@@ -156,8 +156,8 @@ RUN set -eux; \
 
 VOLUME /var/www/html
 
-COPY --chown=www-data:www-data php8.2/wp-config-docker.php /usr/src/classicpress/
-COPY php8.2/docker-entrypoint.sh /usr/local/bin/
+COPY --chown=www-data:www-data shared/wp-config-docker.php /usr/src/classicpress/
+COPY shared/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["docker-entrypoint.sh"]

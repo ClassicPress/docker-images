@@ -32,15 +32,15 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { php: '8.1', variant: apache,     dockerfile: php8.1/Dockerfile }
-          - { php: '8.2', variant: apache,     dockerfile: php8.2/Dockerfile }
-          - { php: '8.3', variant: apache,     dockerfile: php8.3/Dockerfile }
-          - { php: '8.4', variant: apache,     dockerfile: php8.4/Dockerfile }
-          - { php: '8.5', variant: apache,     dockerfile: php8.5/Dockerfile,            extra_tags: latest }
-          - { php: '8.2', variant: fpm-alpine, dockerfile: php8.2/fpm-alpine/Dockerfile }
-          - { php: '8.3', variant: fpm-alpine, dockerfile: php8.3/fpm-alpine/Dockerfile }
-          - { php: '8.4', variant: fpm-alpine, dockerfile: php8.4/fpm-alpine/Dockerfile }
-          - { php: '8.5', variant: fpm-alpine, dockerfile: php8.5/fpm-alpine/Dockerfile, extra_tags: fpm-alpine }
+          - { php: '8.1', variant: apache,     dockerfile: apache/php8.1/Dockerfile }
+          - { php: '8.2', variant: apache,     dockerfile: apache/php8.2/Dockerfile }
+          - { php: '8.3', variant: apache,     dockerfile: apache/php8.3/Dockerfile }
+          - { php: '8.4', variant: apache,     dockerfile: apache/php8.4/Dockerfile }
+          - { php: '8.5', variant: apache,     dockerfile: apache/php8.5/Dockerfile,            extra_tags: latest }
+          - { php: '8.2', variant: fpm-alpine, dockerfile: fpm-alpine/php8.2/Dockerfile }
+          - { php: '8.3', variant: fpm-alpine, dockerfile: fpm-alpine/php8.3/Dockerfile }
+          - { php: '8.4', variant: fpm-alpine, dockerfile: fpm-alpine/php8.4/Dockerfile }
+          - { php: '8.5', variant: fpm-alpine, dockerfile: fpm-alpine/php8.5/Dockerfile, extra_tags: fpm-alpine }
     env:
       IMAGE: classicpress/classicpress
       TEST_IMAGE: classicpress-test:local

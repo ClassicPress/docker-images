@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM php:8.2-apache
+FROM php:8.5-apache
 
 # persistent dependencies
 RUN set -eux; \
@@ -46,19 +46,11 @@ RUN set -ex; \
 		mysqli \
 		zip \
 	; \
-# https://pecl.php.net/package/imagick
-# https://github.com/Imagick/imagick/commit/5ae2ecf20a1157073bad0170106ad0cf74e01cb6 (causes a lot of build failures, but strangely only intermittent ones 🤔)
-# see also https://github.com/Imagick/imagick/pull/641
-# this is "pecl install imagick-3.7.0", but by hand so we can apply a small hack / part of the above commit
-	curl -fL --retry 8 --retry-all-errors --retry-delay 15 --connect-timeout 30 --max-time 180 -o imagick.tgz 'https://pecl.php.net/get/imagick-3.7.0.tgz'; \
-	echo '5a364354109029d224bcbb2e82e15b248be9b641227f45e63425c06531792d3e *imagick.tgz' | sha256sum -c -; \
-	tar --extract --directory /tmp --file imagick.tgz imagick-3.7.0; \
-	grep '^//#endif$' /tmp/imagick-3.7.0/Imagick.stub.php; \
-	test "$(grep -c '^//#endif$' /tmp/imagick-3.7.0/Imagick.stub.php)" = '1'; \
-	sed -i -e 's!^//#endif$!#endif!' /tmp/imagick-3.7.0/Imagick.stub.php; \
-	grep '^//#endif$' /tmp/imagick-3.7.0/Imagick.stub.php && exit 1 || :; \
-	docker-php-ext-install /tmp/imagick-3.7.0; \
-	rm -rf imagick.tgz /tmp/imagick-3.7.0; \
+	# https://pecl.php.net/package/imagick
+	# https://pecl.php.net/package/imagick
+	n=0; until pecl install imagick-3.8.1; do n=$((n+1)); [ "$n" -ge 8 ] && exit 1; echo "pecl install failed, retry $n"; sleep 15; done; \
+	docker-php-ext-enable imagick; \
+	rm -r /tmp/pear; \
 	\
 # some misbehaving extensions end up outputting to stdout 🙈 (https://github.com/docker-library/wordpress/issues/669#issuecomment-993945967)
 	out="$(php -r 'exit(0);')"; \
@@ -95,17 +87,17 @@ RUN set -eux; \
     echo "$wpCliSha512 */usr/local/bin/wp" | sha512sum -c -; \
     chmod +x /usr/local/bin/wp; \
     wp --allow-root --info
-	
+
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
+# enabled by default in the php images: https://github.com/docker-library/php/pull/1587
 RUN set -eux; \
-	docker-php-ext-enable opcache; \
 	{ \
 		echo 'opcache.memory_consumption=128'; \
 		echo 'opcache.interned_strings_buffer=8'; \
 		echo 'opcache.max_accelerated_files=4000'; \
 		echo 'opcache.revalidate_freq=2'; \
-	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
+	} > "$PHP_INI_DIR/conf.d/opcache-recommended.ini"
 # https://wordpress.org/support/article/editing-wp-config-php/#configure-error-logging
 RUN { \
 # https://www.php.net/manual/en/errorfunc.constants.php
@@ -184,8 +176,8 @@ RUN set -eux; \
 
 VOLUME /var/www/html
 
-COPY --chown=www-data:www-data php8.2/wp-config-docker.php /usr/src/classicpress/
-COPY php8.2/docker-entrypoint.sh /usr/local/bin/
+COPY --chown=www-data:www-data shared/wp-config-docker.php /usr/src/classicpress/
+COPY shared/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["docker-entrypoint.sh"]

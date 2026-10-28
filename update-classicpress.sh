@@ -5,7 +5,7 @@
 # Usage: ./update-classicpress.sh 2.7.4
 #
 # Downloads the release tarball from GitHub, computes its SHA-256, and writes
-# the version and checksum into php*/Dockerfile and php*/fpm-alpine/Dockerfile.
+# the version and checksum into apache/*/Dockerfile and fpm-alpine/*/Dockerfile.
 # Also updates the version shown in readme.md. Review the diff, then commit.
 #
 set -Eeuo pipefail
@@ -42,7 +42,7 @@ edit() {
 }
 
 shopt -s nullglob
-for dockerfile in php*/Dockerfile php*/fpm-alpine/Dockerfile; do
+for dockerfile in apache/*/Dockerfile fpm-alpine/*/Dockerfile; do
 	edit "$dockerfile" \
 		-e "s/^\([[:space:]]*\)version='[0-9.]*'; \\\\\$/\1version='$version'; \\\\/" \
 		-e "s/^\([[:space:]]*\)sha256='[^']*'; \\\\\$/\1sha256='$sha256'; \\\\/"

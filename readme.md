@@ -32,7 +32,7 @@ Tags for the current ClassicPress release are rebuilt weekly, so they also pick 
 
 ### PHP-FPM on Alpine Linux
 
-Smaller images that run PHP-FPM only (port 9000), with no web server inside. Put nginx or another web server in front; see `docker-compose.fpm-alpine.yml` and `nginx/default.conf` for a working example.
+Smaller images that run PHP-FPM only (port 9000), with no web server inside. Put nginx or another web server in front; see [`examples/docker-compose.fpm-alpine.yml`](examples/docker-compose.fpm-alpine.yml) and [`examples/nginx/default.conf`](examples/nginx/default.conf) for a working example.
 
 - [2.7.4‑php8.2‑fpm‑alpine](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.2-fpm-alpine)
 - [2.7.4‑php8.3‑fpm‑alpine](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.3-fpm-alpine)
@@ -40,6 +40,7 @@ Smaller images that run PHP-FPM only (port 9000), with no web server inside. Put
 - [2.7.4‑php8.5‑fpm‑alpine](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.5-fpm-alpine) (also `fpm-alpine`)
 
 ```
+cd examples
 docker compose -f docker-compose.fpm-alpine.yml up -d
 ```
 
@@ -55,6 +56,16 @@ docker exec -u www-data <container> wp plugin list
 
 - `amd64`  
 - `arm64`
+
+## Repository layout
+
+```
+apache/php8.x/Dockerfile        Apache images (php8.x-apache)
+fpm-alpine/php8.x/Dockerfile    PHP-FPM on Alpine images (php8.x-fpm-alpine)
+shared/                         Entrypoint and wp-config used by every image
+examples/                       Docker Compose files and nginx config
+update-classicpress.sh          Sets the ClassicPress version and checksum
+```
 
 ## Maintainers: updating ClassicPress
 
