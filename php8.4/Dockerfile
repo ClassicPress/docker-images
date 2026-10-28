@@ -79,9 +79,12 @@ RUN set -ex; \
 	err="$(php --version 3>&1 1>&2 2>&3)"; \
 	[ -z "$err" ]
 	
-# Install WP-CLI
+# Install WP-CLI (pinned and checksum-verified; see https://github.com/wp-cli/wp-cli/releases)
 RUN set -eux; \
-    curl -fsSL -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar; \
+    wpCliVersion='2.12.0'; \
+    wpCliSha512='be928f6b8ca1e8dfb9d2f4b75a13aa4aee0896f8a9a0a1c45cd5d2c98605e6172e6d014dda2e27f88c98befc16c040cbb2bd1bfa121510ea5cdf5f6a30fe8832'; \
+    curl -fsSL --retry 5 --retry-all-errors --retry-delay 10 -o /usr/local/bin/wp "https://github.com/wp-cli/wp-cli/releases/download/v$wpCliVersion/wp-cli-$wpCliVersion.phar"; \
+    echo "$wpCliSha512 */usr/local/bin/wp" | sha512sum -c -; \
     chmod +x /usr/local/bin/wp; \
     wp --allow-root --info
 
@@ -131,8 +134,10 @@ RUN set -eux; \
 
 RUN set -eux; \
     version='2.7.4'; \
+    sha256='SET_BY_update-classicpress.sh'; \
     \
-    curl -o classicpress.tar.gz -fL "https://github.com/ClassicPress/ClassicPress-release/archive/refs/tags/$version.tar.gz"; \
+    curl -o classicpress.tar.gz -fL --retry 5 --retry-all-errors --retry-delay 10 "https://github.com/ClassicPress/ClassicPress-release/archive/refs/tags/$version.tar.gz"; \
+    echo "$sha256 *classicpress.tar.gz" | sha256sum -c -; \
     \
     # Extract ClassicPress tarball
     tar -xzf classicpress.tar.gz -C /usr/src/; \

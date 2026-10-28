@@ -12,6 +12,18 @@ This image provides a streamlined, production-ready container for running Classi
 
 ## Supported Tags
 
+Each image is published under three tags, so you can choose how closely to pin it:
+
+| Tag | Example | Gets |
+|---|---|---|
+| `php<version>-<variant>` | `php8.4-apache` | Every new ClassicPress release |
+| `<major.minor>-php<version>-<variant>` | `2.7-php8.4-apache` | Bug-fix releases of ClassicPress 2.7 only |
+| `<full version>-php<version>-<variant>` | `2.7.4-php8.4-apache` | Exactly ClassicPress 2.7.4 |
+
+Tags for the current ClassicPress release are rebuilt weekly, so they also pick up PHP and operating system security fixes. Tags for older releases stop being updated. `latest` is `php8.5-apache`.
+
+### Apache
+
 - [2.7.4‑php8.1‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.1-apache)  
 - [2.7.4‑php8.2‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.2-apache)  
 - [2.7.4‑php8.3‑apache](https://hub.docker.com/r/classicpress/classicpress/tags?page=1&name=php8.3-apache)  
@@ -43,3 +55,16 @@ docker exec -u www-data <container> wp plugin list
 
 - `amd64`  
 - `arm64`
+
+## Maintainers: updating ClassicPress
+
+Run the update script with the new version, review the diff, and commit:
+
+```
+./update-classicpress.sh 2.7.5
+git diff
+```
+
+It downloads the release, pins its SHA-256 checksum in every Dockerfile, and updates the version in this readme. Builds fail if the downloaded file doesn't match the checksum.
+
+Pull requests and pushes to `develop` build and test every image without publishing. Pushes to `main` and the weekly scheduled run publish to Docker Hub.
