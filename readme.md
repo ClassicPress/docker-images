@@ -31,6 +31,16 @@ Smaller images that run PHP-FPM only (port 9000), with no web server inside. Put
 docker compose -f docker-compose.fpm-alpine.yml up -d
 ```
 
+## WP-CLI
+
+Every image includes [WP-CLI](https://wp-cli.org/) at `/usr/local/bin/wp`, so you don't need a separate CLI container. Run it as `www-data`, so new files get the same owner as the site:
+
+```
+docker exec -u www-data <container> wp plugin list
+```
+
+Don't use `wp core update` or `wp core download`. They install WordPress, not ClassicPress. To update ClassicPress, pull a newer image or use the updater in the dashboard.
+
 ## Supported Architectures
 
 - `amd64`  
