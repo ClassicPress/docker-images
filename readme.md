@@ -33,7 +33,7 @@ docker compose -f docker-compose.fpm-alpine.yml up -d
 
 ## WP-CLI
 
-Every image includes [WP-CLI](https://wp-cli.org/) at `/usr/local/bin/wp`, so you don't need a separate CLI container. Run it as `www-data`, so new files get the same owner as the site:
+Every image includes [WP-CLI](https://wp-cli.org/) at `/usr/local/bin/wp`. Run it as `www-data`, so new files get the same owner as the site:
 
 ```
 docker exec -u www-data <container> wp plugin list
