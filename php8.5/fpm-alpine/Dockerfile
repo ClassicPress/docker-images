@@ -116,7 +116,7 @@ RUN set -eux; \
 
 RUN set -eux; \
     version='2.7.4'; \
-    sha256='SET_BY_update-classicpress.sh'; \
+    sha256='59a8b384645b4c5c17561294531679561874d4603dce40a7a2c721603338bdf3'; \
     \
     curl -o classicpress.tar.gz -fL --retry 5 --retry-all-errors --retry-delay 10 "https://github.com/ClassicPress/ClassicPress-release/archive/refs/tags/$version.tar.gz"; \
     echo "$sha256 *classicpress.tar.gz" | sha256sum -c -; \
